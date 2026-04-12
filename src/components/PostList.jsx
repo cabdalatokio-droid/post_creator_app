@@ -1,8 +1,10 @@
-const PostList=()=>{
+import Post from "./Post";
+const PostList=({posts})=>{
   return (
-     <>
-  PostList
-  </>
+      posts.map((e)=>(
+        <Post   id={e.id}{...e}/>
+         
+          ))
   );
  
 }

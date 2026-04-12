@@ -1,23 +1,26 @@
 import { useState } from "react";
 
-const Login=(props)=>{
- const[username,setUsername]=useState("");
-   const handleSubmit=(event)=>{
+const Login = ({ setUser }) => {
+  const [username, setUsername] = useState("");
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-    props.setUser(username);
-   }
+    setUser(username);
+  };
+
   return (
     <div>
-      <form
-      onSubmit={handleSubmit}>
-        <input type="text" placeholder="enter your Usename" onChange={(e)=> setUsername(e.target.value)}/>
-        <button type="submit">
-         Login
-        </button>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="enter your Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <button type="submit">Login</button>
       </form>
     </div>
-
   );
-  
-}
+};
+
 export default Login;
