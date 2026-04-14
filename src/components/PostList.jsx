@@ -1,8 +1,12 @@
+import { PostContext } from "../App";
 import Post from "./Post";
-const PostList=({posts})=>{
+import { useContext } from "react";
+const PostList=()=>{
+
+  const {state}=useContext(PostContext);
   return (
-      posts.map((e)=>(
-        <Post   id={e.id}{...e}/>
+      state.posts.map((e)=>(
+        <Post   key={e.id}{...e}/>
          
           ))
   );

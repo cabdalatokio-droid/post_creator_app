@@ -1,8 +1,11 @@
-import { useState,useRef } from "react";
+import { useState,useRef,useContext } from "react";
 import { nanoid } from "nanoid";
-const CreatePost=({setPosts,posts,user})=>{
+import { PostContext } from "../App";
+const CreatePost=({user})=>{
     const[content,setContent]=useState("")
     const[image,setImage]=useState(null);
+    
+    const{dispatch}=useContext(PostContext);
 
     const imageRef=useRef();
      const contentRef=useRef();
@@ -10,15 +13,14 @@ const CreatePost=({setPosts,posts,user})=>{
       e.preventDefault();
      
       const newPosts={content,image, id:nanoid(),user};
-      setPosts([newPosts,...posts]);
+       dispatch({
+        type:"ADD_NEW_POST",
+        payload:{post:newPosts}
+       });
       setContent("");
        setImage(null);
       imageRef.current.value="";
       contentRef.current.focus();
-     
-      
-
-
     }
 
   return (

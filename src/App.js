@@ -1,34 +1,42 @@
 
-import Login from './components/Login';
-import { useState,useEffect,createContext} from 'react';
-import Header from './components/Header';
-import CreatePost from './components/CreatePost';
-import PostList from './components/PostList';
+    import Login from './components/Login';
+    import { useState,useEffect,createContext,useContext,useReducer} from 'react';
+    import Header from './components/Header';
+    import CreatePost from './components/CreatePost';
+    import PostList from './components/PostList';
+    import postReducer from './postReduce';
 
-const App=()=>{
- const[user,setUser]=useState(()=>localStorage.getItem("username"||null));
- const[posts,setPosts]=useState([]);
+    export const userContext=createContext();
+    export const PostContext=createContext({
+      posts:[]
+    });
 
-  useEffect(() => {
-    if(user){
-      localStorage.setItem('username',user);
-    }
-  document.title = user ? `${user}'s feed` : "please login";
-}, [user]);
 
-  if(!user) return <Login setUser={setUser}/>
+    const App=()=>{
+    const[user,setUser]=useState(null) ;
+    const instialPostState=useContext(PostContext)
+    const [state,dispatch]=useReducer(postReducer,instialPostState);
 
-  return(
-    <div>
-        <Header setUser={setUser} user={user}/>
-        <CreatePost user={user} setPosts={setPosts} posts={posts}/>
-        <PostList posts={posts}/>
-        
-   </div>
-  );
-};
+      useEffect(() => {
+      
+      document.title = user ? `${user}'s feed` : "please login";
+    }, [user]);
 
-export default App;
+      if(!user) return <Login setUser={setUser}/>
+
+      return(
+      <PostContext.Provider value={{state,dispatch}}>
+        < userContext.Provider value={user}>
+            <Header setUser={setUser}/>
+            <CreatePost user={user}/>
+            <PostList />
+            
+          </userContext.Provider>
+      </PostContext.Provider>
+    );
+ };
+
+  export default App;
 
 
 
